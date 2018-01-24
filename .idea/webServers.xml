@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="0840692c-6790-4713-b287-84e5bac4f4b9" name="XAMPP Account Ledger Server" url="http://localhost/account_ledger_server">
+        <fileTransfer mountedRoot="C:\xampp\htdocs\account_ledger_server" accessType="MOUNT" port="0" />
+      </webServer>
+    </option>
+  </component>
+</project>
