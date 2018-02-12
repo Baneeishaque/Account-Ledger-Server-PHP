@@ -15,5 +15,6 @@ if ($status_row['system_status'] == "1") {
 }
 
 echo json_encode($emptyarray);
+//echo $status_sql;
 
 

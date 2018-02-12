@@ -2,7 +2,8 @@
 
 include_once 'config.php';
 
-$status_sql = "SELECT `name` FROM `semesters`";
+$user_id = filter_input(INPUT_POST, 'user_id');
+$status_sql = "SELECT `id`,`event_date_time`, `particulars`, `amount`, `insertion_date_time`  FROM `transactions` WHERE `inserter_id`='$user_id' ORDER BY `transactions`.`event_date_time`";
 $status_result = $con->query($status_sql);
 
 $emptyarray = array();
