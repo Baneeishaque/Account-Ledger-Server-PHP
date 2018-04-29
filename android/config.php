@@ -1,6 +1,6 @@
 <?php
 
-$cpanel_username = "findandg";
+$cpanel_username = "vfmobo6d";
 //echo $cpanel_username;
 //$con = new mysqli("localhost", "filebirb_ndk", "9895204814", "filebirb_caventa");
 //$con = new mysqli("localhost", "edcccet_ndk", "9895204814", "edcccet_lottery");
