@@ -9,7 +9,7 @@ $to_account_id = filter_input(INPUT_POST, 'to_account_id');
 $from_account_id = filter_input(INPUT_POST, 'from_account_id');
 $id = filter_input(INPUT_POST, 'id');
 
-$sql="UPDATE `transactionsv2` SET `event_date_time`='$event_date_time', `particulars`='$particulars', `amount`='$amount', `insertion_date_time`=CONVERT_TZ(NOW(),'-05:30','+00:00'), `from_account_id`='$from_account_id', `to_account_id`='$to_account_id' WHERE `id`='$id'";
+$sql = "UPDATE `transactionsv2` SET `event_date_time`='$event_date_time', `particulars`='$particulars', `amount`='$amount', `insertion_date_time`=CONVERT_TZ(NOW(),'-05:30','+00:00'), `from_account_id`='$from_account_id', `to_account_id`='$to_account_id' WHERE `id`='$id'";
 
 if (!$con->query($sql)) {
     $arr = array('status' => "1", 'error' => $con->error);

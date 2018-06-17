@@ -7,7 +7,7 @@ $parent_account_id = filter_input(INPUT_GET, 'parent_account_id');
 
 //$get_accounts_sql = "SELECT `account_id`, `name`, `parent_account_id`, `account_type`, `notes`, `commodity_type`, `commodity_value`, `owner_id` FROM `accounts` WHERE `owner_id`='$user_id' AND `parent_account_id`='$parent_account_id' ORDER BY `account_id`";
 
-$get_accounts_sql = "SELECT `account_id`, `name`, `parent_account_id`, `account_type`, `notes`, `commodity_type`, `commodity_value`, `owner_id` FROM `accounts` WHERE `parent_account_id`='$parent_account_id' ORDER BY `account_id`";
+$get_accounts_sql = "SELECT `account_id`, `full_name`, `name`, `parent_account_id`, `account_type`, `notes`, `commodity_type`, `commodity_value`, `owner_id`, `taxable`,`place_holder` FROM `accounts` WHERE `parent_account_id`='$parent_account_id' ORDER BY `name`";
 
 $status_result = $con->query($get_accounts_sql);
 
