@@ -8,7 +8,12 @@ $parent_account_id = filter_input(INPUT_GET, 'parent_account_id');
 //TODO : Use for Nasi based on user_id ( Nasi user_id is 13)
 //$get_accounts_sql = "SELECT `account_id`, `name`, `parent_account_id`, `account_type`, `notes`, `commodity_type`, `commodity_value`, `owner_id` FROM `accounts` WHERE `owner_id`='$user_id' AND `parent_account_id`='$parent_account_id' ORDER BY `account_id`";
 
-$get_accounts_sql = "SELECT `account_id`, `full_name`, `name`, `parent_account_id`, `account_type`, `notes`, `commodity_type`, `commodity_value`, `owner_id`, `taxable`,`place_holder` FROM `accounts` WHERE `parent_account_id`='$parent_account_id' ORDER BY `name`";
+if ($user_id == 13) {
+    $get_accounts_sql = "SELECT `account_id`, `full_name`, `name`, `parent_account_id`, `account_type`, `notes`, `commodity_type`, `commodity_value`, `owner_id`, `taxable`,`place_holder` FROM `accounts` WHERE `owner_id`='$user_id' AND `parent_account_id`='$parent_account_id' ORDER BY `name`";
+} else {
+    $get_accounts_sql = "SELECT `account_id`, `full_name`, `name`, `parent_account_id`, `account_type`, `notes`, `commodity_type`, `commodity_value`, `owner_id`, `taxable`,`place_holder` FROM `accounts` WHERE `parent_account_id`='$parent_account_id' AND `owner_id`!=13 ORDER BY `name`";
+}
+
 
 $status_result = $con->query($get_accounts_sql);
 
