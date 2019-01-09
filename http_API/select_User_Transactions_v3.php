@@ -34,10 +34,10 @@ function recursive_select_user_transactions($local_account_id)
     if (mysqli_num_rows($get_transactions_sql_result) != 0) {
 
         while ($get_transactions_sql_result_row = mysqli_fetch_assoc($get_transactions_sql_result)) {
+            $get_transactions_sql_result_row['parent_account_id'] = $local_account_id;
             $GLOBALS['empty_array'][] = $get_transactions_sql_result_row;
         }
     }
-
 }
 
 recursive_select_user_transactions($account_id);
