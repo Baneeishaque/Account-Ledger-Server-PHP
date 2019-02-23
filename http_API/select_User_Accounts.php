@@ -14,7 +14,6 @@ else
     $get_accounts_sql = "SELECT `account_id`, `full_name`, `name`, `parent_account_id`, `account_type`, `notes`, `commodity_type`, `commodity_value`, `owner_id`, `taxable`,`place_holder` FROM `accounts` WHERE `parent_account_id`='$parent_account_id' AND `owner_id`<13 ORDER BY `name`";
 }
 
-
 $status_result = $con->query($get_accounts_sql);
 
 $emptyarray = array();
