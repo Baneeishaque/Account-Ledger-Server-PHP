@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PhpProjectSharedConfiguration" php_language_level="7" />
+  <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />
   <component name="PhpRuntimeConfiguration">
     <extensions>
       <extension name="Ev" enabled="false" />
-      <extension name="LevelDB" enabled="false" />
       <extension name="SQLite" enabled="false" />
       <extension name="SimpleXML" enabled="false" />
       <extension name="SplType" enabled="false" />
@@ -16,7 +15,6 @@
       <extension name="apcu" enabled="false" />
       <extension name="bcmath" enabled="false" />
       <extension name="bz2" enabled="false" />
-      <extension name="com_dotnet" enabled="false" />
       <extension name="couchbase" enabled="false" />
       <extension name="cubrid" enabled="false" />
       <extension name="dba" enabled="false" />

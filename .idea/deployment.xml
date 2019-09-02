@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="On explicit save action" serverName="DO" deleteMissingItems="true" createEmptyFolders="true" autoUploadExternalChanges="true">
+  <component name="PublishConfigData" autoUpload="On explicit save action" serverName="ftpupload.net" overwriteAll="false" deleteMissingItems="true" createEmptyFolders="true" autoUploadExternalChanges="true">
     <serverData>
-      <paths name="DO">
+      <paths name="ftpupload.net">
         <serverdata>
           <mappings>
             <mapping deploy="/account_ledger_server" local="$PROJECT_DIR$" web="/account_ledger_server" />
@@ -10,17 +10,10 @@
           <excludedPaths>
             <excludedPath local="true" path="$PROJECT_DIR$/.idea" />
             <excludedPath local="true" path="$PROJECT_DIR$/db_backups" />
-            <excludedPath local="true" path="$PROJECT_DIR$/nbproject" />
             <excludedPath local="true" path="$PROJECT_DIR$/.gitignore" />
             <excludedPath local="true" path="$PROJECT_DIR$/LICENSE" />
+            <excludedPath local="true" path="$PROJECT_DIR$/sync.ffs_db" />
           </excludedPaths>
-        </serverdata>
-      </paths>
-      <paths name="Local IIS">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
         </serverdata>
       </paths>
     </serverData>
