@@ -36,7 +36,7 @@ if (mysqli_num_rows($result) == 0) {
 
 } else {
 
-    $arr = array('status' => "1", 'error' => 'username already exists...');
+    $arr = array('status' => "1", 'error' => 'Username already exists...');
 }
 
 echo json_encode($arr);
