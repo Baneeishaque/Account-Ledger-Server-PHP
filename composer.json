@@ -1,0 +1,20 @@
+{
+  "name": "baneeishaque/account_ledger_server",
+  "description": "Account Ledger Server",
+  "type": "project",
+  "license": "GPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Banee Ishaque K",
+      "email": "Baneeishaque@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "ext-mysqli": "*",
+    "ext-gettext": "*"
+  },
+  "require-dev": {
+    "heroku/heroku-buildpack-php": "*"
+  }
+}
