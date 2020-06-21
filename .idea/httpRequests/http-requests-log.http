@@ -1,3 +1,24 @@
+GET https://account-ledger-server.herokuapp.com/http_API/select_User.php?username=banee_ishaque_k_10_04_2019&password=9895204814
+Accept: application/json
+
+<> 2020-06-20T040551.200.html
+
+###
+
+GET https://account-ledger-server.herokuapp.com/http_API/select_User.php?username=test_user&password=test_password
+Content-Type: application/x-www-form-urlencoded
+
+<> 2020-06-20T040347.200.html
+
+###
+
+GET https://account-ledger-server.herokuapp.com/http_API/select_User.php?username=test_user&password=test_password
+Content-Type: application/x-www-form-urlencoded
+
+<> 2020-06-20T040258.200.html
+
+###
+
 POST http://adgarage.co/wp-production/account_ledger_server/http_API/insertUser.php
 Content-Type: application/x-www-form-urlencoded
 
