@@ -14,6 +14,6 @@ $sql = "INSERT INTO `transactionsv2`(`event_date_time`, `particulars`, `amount`,
 if (!$con->query($sql)) {
     $arr = array('status' => "1", 'error' => $con->error);
 } else {
-    $arr = array('status' => "0");
+    $arr = array('status' => "0", 'error' => "");
 }
 echo json_encode($arr);
