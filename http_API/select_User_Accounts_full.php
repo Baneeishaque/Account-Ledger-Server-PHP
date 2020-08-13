@@ -5,9 +5,9 @@ include_once 'config.php';
 $user_id = filter_input(INPUT_GET, 'user_id');
 
 if ($user_id > 20) {
-    $get_accounts_sql = "SELECT `account_id`, `full_name`, `name`, `parent_account_id`, `account_type`, `notes`, `commodity_type`, `commodity_value`, `owner_id`, `taxable`,`place_holder` FROM `accounts` WHERE `owner_id`='$user_id' ORDER BY `name`";
+    $get_accounts_sql = "SELECT `account_id`, `full_name`, `name`, `parent_account_id`, `account_type`, `notes`, `commodity_type`, `commodity_value`, `owner_id`, `taxable`,`place_holder` FROM `accounts` WHERE `owner_id`='$user_id'";
 } else {
-    $get_accounts_sql = "SELECT `account_id`, `full_name`, `name`, `parent_account_id`, `account_type`, `notes`, `commodity_type`, `commodity_value`, `owner_id`, `taxable`,`place_holder` FROM `accounts` WHERE `owner_id`<21 ORDER BY `name`";
+    $get_accounts_sql = "SELECT `account_id`, `full_name`, `name`, `parent_account_id`, `account_type`, `notes`, `commodity_type`, `commodity_value`, `owner_id`, `taxable`,`place_holder` FROM `accounts` WHERE `owner_id`<21";
 }
 
 $accounts_result = $con->query($get_accounts_sql);
