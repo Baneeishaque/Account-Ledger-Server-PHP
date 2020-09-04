@@ -42,6 +42,8 @@ function recursive_select_user_transactions($local_account_id)
 
 recursive_select_user_transactions($account_id);
 var_dump($empty_array);
+array_unshift($empty_array,"status"=>"0");
+var_dump($empty_array);
 // if(empty($empty_array))
 // {
 	// array_unshift($empty_array,"status"=>"2");
