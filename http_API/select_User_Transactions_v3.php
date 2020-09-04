@@ -41,7 +41,7 @@ function recursive_select_user_transactions($local_account_id)
 }
 
 recursive_select_user_transactions($account_id);
-if(empty($empty_array)
+if(empty($empty_array))
 {
 	array_unshift($empty_array,"status"=>"2");
 	echo json_encode($empty_array);
