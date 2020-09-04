@@ -1,5 +1,6 @@
 <?php
 ini_set('display_errors', '1');
+error_reporting(E_ALL);
 
 //$con = new mysqli("localhost", "edcccet_ndk", "9895204814", "edcccet_lottery");
 //$con = new mysqli("localhost", "vfmobo6d_ndk", "9895204814", "vfmobo6d_account_ledger");
