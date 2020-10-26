@@ -3,7 +3,7 @@
 include_once 'config.php';
 
 //TODO : Avoid include style code
-$selectUsersSqlResult = $con->query("SELECT `id`,`username`,`password` FROM users");
+$selectUsersSqlResult = $con->query("SELECT id, event_date_time, particulars, amount, insertion_date_time, inserter_id FROM transactions");
 
 $out = array();
 
