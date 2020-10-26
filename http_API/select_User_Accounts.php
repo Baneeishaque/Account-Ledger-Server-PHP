@@ -16,17 +16,17 @@ else
 
 $status_result = $con->query($get_accounts_sql);
 
-$emptyarray = array();
+$out = array();
 
 if (mysqli_num_rows($status_result) != 0) {
 
-    array_push($emptyarray, array("status" => "0"));
+    array_push($out, array("status" => "0"));
 
     while ($status_row = mysqli_fetch_assoc($status_result)) {
-        $emptyarray[] = $status_row;
+        $out[] = $status_row;
     }
 } else {
-    array_push($emptyarray, array("status" => "1"));
+    array_push($out, array("status" => "1"));
 }
 
-echo json_encode($emptyarray);
+echo json_encode($out);

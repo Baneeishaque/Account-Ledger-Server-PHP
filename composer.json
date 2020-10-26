@@ -12,7 +12,8 @@
   "minimum-stability": "stable",
   "require": {
     "ext-mysqli": "*",
-    "ext-gettext": "*"
+    "ext-gettext": "*",
+    "ext-json": "*"
   },
   "require-dev": {
     "heroku/heroku-buildpack-php": "*"
