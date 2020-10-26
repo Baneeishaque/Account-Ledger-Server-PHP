@@ -1,0 +1,4 @@
+GET https://{{host}}/{{http_API_folder}}/getTransactions.{{file_extension}}
+Accept: application/json
+
+###
