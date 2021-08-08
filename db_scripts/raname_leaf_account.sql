@@ -1,6 +1,6 @@
-SET @to_rename_account_id = 941;
-SET @old_name="Puthentheru";
-SET @new_name="Vava Saloon, Puthentheru";
+SET @to_rename_account_id = 17;
+SET @old_name="Freecharge DK";
+SET @new_name="FreeCharge DK";
 
 -- Child Accoutns Must Be 0
 SELECT * FROM `accounts` WHERE `parent_account_id`=@to_rename_account_id;

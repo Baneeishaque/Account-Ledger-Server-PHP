@@ -7,9 +7,9 @@
 --   AND `inserter_id` = 13
 -- ORDER BY `event_date_time`;
 
- SET @starting_transaction_id = 12021;
+SET @starting_transaction_id = 44109;
 
-SET @ending_transaction_id = 12021;
+SET @ending_transaction_id = 44159;
 
 SELECT
   *
@@ -19,10 +19,17 @@ WHERE id BETWEEN @starting_transaction_id
   AND @ending_transaction_id
 ORDER BY `event_date_time`;
 
+-- UPDATE
+--   `transactionsv2`
+-- SET
+--   `event_date_time` = `event_date_time` + INTERVAL 6 DAY
+-- WHERE id BETWEEN @starting_transaction_id
+--   AND @ending_transaction_id;
+
 UPDATE
   `transactionsv2`
 SET
-  `event_date_time` = `event_date_time` + INTERVAL 6 DAY
+  `event_date_time` = `event_date_time` + INTERVAL 1 DAY
 WHERE id BETWEEN @starting_transaction_id
   AND @ending_transaction_id;
 

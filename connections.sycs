@@ -3,7 +3,7 @@ Name=Heroku Account Ledger
 Host=us-cdbr-iron-east-05.cleardb.net
 User=b5c0067badacde
 StorePassword=1
-Password=HJybGRkbGZg=
+Password=ZFXPXCs49/c=
 Isencrypted=1
 Port=3306
 Database=heroku_0fd2194a537b978
