@@ -1,0 +1,2 @@
+GET https://{{host}}/{{http_API_folder}}/select_User_Transactions_After_Specified_Date.{{file_extension}}?user_id=15&specified_date=2021-10-25
+Accept: application/json
