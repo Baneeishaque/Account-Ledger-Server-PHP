@@ -1,15 +1,12 @@
-SET @updating_account_id = 17;
+SET @updating_account_id = 5969;
 
-SET @parent_account_id = 4729;
+SET @parent_account_id = 15;
 
-SELECT
-  *
-FROM
-  accounts
+SELECT *
+FROM accounts
 WHERE account_id = @updating_account_id;
 
-SELECT
-  *
+SELECT *
 FROM
   accounts
 WHERE account_id = @parent_account_id;

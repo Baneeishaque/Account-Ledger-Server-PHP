@@ -5,19 +5,18 @@ include_once 'config.php';
 //TODO : Avoid include style code
 $selectUsersSqlResult = $con->query("SELECT `id`,`username`,`password` FROM users");
 
-$out = array();
+$users = array();
 
 if (mysqli_num_rows($selectUsersSqlResult) != 0) {
 
-    array_push($out, array("status" => "0"));
-
+    $status = 0;
     while ($status_row = mysqli_fetch_assoc($selectUsersSqlResult)) {
 
-        $out[] = $status_row;
+        $users[] = $status_row;
     }
 } else {
 
-    array_push($out, array("status" => "1"));
+    $status = 1;
 }
 
-echo json_encode($out);
+echo json_encode(array("status" => $status, "users" => $users));
