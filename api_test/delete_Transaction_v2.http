@@ -1,0 +1,4 @@
+POST https://{{host}}/{{http_API_folder}}/delete_Transaction_v2.{{file_extension}}
+Content-Type: application/x-www-form-urlencoded
+
+id=58439
