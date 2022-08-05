@@ -1,0 +1,2 @@
+GET https://{{host}}/{{http_API_folder}}/select_Transactions_v2m.{{file_extension}}?user_id=18
+Accept: application/json
