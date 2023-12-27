@@ -26,9 +26,9 @@
 <script compress="yes" fileordir="file" timestampdir="" timestamp="yes">E:\To_Sync\Lab_Banee\SQLyog\_heroku_account_ledger.zip</script>
 </export>
 <options>
-<createdb>yes</createdb>
-<usedb>yes</usedb>
-<dropobjects>yes</dropobjects>
+<createdb>no</createdb>
+<usedb>no</usedb>
+<dropobjects>no</dropobjects>
 <ignoredefiner>yes</ignoredefiner>
 <bulkinsert>yes</bulkinsert>
 <onerow>yes</onerow>
@@ -41,7 +41,7 @@
 <disablekeys>no</disablekeys>
 <locktablewrite>no</locktablewrite>
 <hexblob>no</hexblob>
-<fkchecks>yes</fkchecks>
+<fkchecks>no</fkchecks>
 <autocommit>no</autocommit>
 <includeversion>no</includeversion>
 <usecharset>utf8</usecharset>
