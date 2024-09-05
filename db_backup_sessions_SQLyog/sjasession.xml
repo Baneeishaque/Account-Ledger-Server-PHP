@@ -1,1 +1,3 @@
-<sjasession><errors></errors></sjasession>
+<sjasession><errors><error>
+ERROR: 2005, Unknown server host 'srv1090.hstgr.io' (11001)</error><error>Error in Connection
+</error></errors></sjasession>
