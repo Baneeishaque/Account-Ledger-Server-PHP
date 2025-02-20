@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install Scoop
-        uses: winpax/scoop-setup@v1
+        uses: winpax/scoop-setup@v1.0.0
 
       - name: Add "Banee Ishaque K Scoop App Versions Fork Bucket"
         run: scoop bucket add baneeishaque_app_versions_fork https://github.com/Baneeishaque/Scoop-App-Versions.git
@@ -26,7 +26,7 @@ jobs:
         run: C:\Users\runneradmin\scoop\apps\sqlyog-ultimate-trial\current\SJA.exe "C:\workspace\Account-Ledger-Server\db_backup_jobs\nomadller-hostinger-temp-SQLyog-Scoop-Windows-GitHub-Actions.xml" -l"C:\workspace\Account-Ledger-Server\db_backup_logs_SQLyog\sja.log" -s"C:\workspace\Account-Ledger-Server\db_backup_sessions_SQLyog\sjasession.xml"
 
       - name: Configure Git
-        uses: stefanzweifel/setup-git-user@v1
+        uses: fregante/setup-git-user@v2.0.2
 
       - name: Add Changes
         run: |
@@ -43,7 +43,7 @@ jobs:
           git commit -m "Added DB Backup file $(basename $DB_FILE) from ${SERVER_NAME} On ${DB_TIMESTAMP} Using ${SOFTWARE_NAME}"
 
       - name: Push Changes to Master
-        uses: ad-m/github-push-action@v0.6.0
+        uses: ad-m/github-push-action@v0.8.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: master
