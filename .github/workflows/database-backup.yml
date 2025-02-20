@@ -20,7 +20,7 @@ jobs:
         run: scoop bucket add baneeishaque_app_versions_fork https://github.com/Baneeishaque/Scoop-App-Versions.git
 
       - name: Install SQLyog Ultimate Trail from "Banee Ishaque K Scoop App Versions Fork Bucket"
-        run: scoop install sqlyog-ultimate-trial --bucket baneeishaque_app_versions_fork
+        run: scoop install baneeishaque_app_versions_fork\sqlyog-ultimate-trial
 
       - name: Run SQLyog Job Agent
         run: C:\Users\runneradmin\scoop\apps\sqlyog-ultimate-trial\current\SJA.exe "C:\workspace\Account-Ledger-Server\db_backup_jobs\nomadller-hostinger-temp-SQLyog-Scoop-Windows-GitHub-Actions.xml" -l"C:\workspace\Account-Ledger-Server\db_backup_logs_SQLyog\sja.log" -s"C:\workspace\Account-Ledger-Server\db_backup_sessions_SQLyog\sjasession.xml"
