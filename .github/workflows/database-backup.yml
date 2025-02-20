@@ -19,8 +19,8 @@ jobs:
       - name: Add "Banee Ishaque K Scoop App Versions Fork Bucket"
         run: scoop bucket add baneeishaque_app_versions_fork https://github.com/Baneeishaque/Scoop-App-Versions.git
 
-      - run: scoop bucket list
-      - run: scoop search sqlyog-ultimate-trial
+      # - run: scoop bucket list
+      # - run: scoop search sqlyog-ultimate-trial
 
       - name: Install SQLyog Ultimate Trail from "Banee Ishaque K Scoop App Versions Fork Bucket"
         run: scoop install sqlyog-ultimate-trial
