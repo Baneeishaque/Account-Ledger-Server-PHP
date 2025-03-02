@@ -1,4 +1,4 @@
-name: Database Backup from Nomadller Hostinger Premium Shared Web Hosting Server via. Scoop SQLyog Ultimate Trial (Available on "Banee Ishaque K Scoop App Versions Fork Bucket")
+name: Database Backup from Server via. mysqldump
 
 on:
   schedule:
@@ -8,47 +8,39 @@ on:
 
 jobs:
   backup:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install Scoop
-        uses: winpax/scoop-setup@v1.0.0
+      - name: Update package repository
+        run: sudo apt-get update
 
-      - name: Add "Banee Ishaque K Scoop App Versions Fork Bucket"
-        run: scoop bucket add baneeishaque_app_versions_fork https://github.com/Baneeishaque/Scoop-App-Versions.git
+      - name: Install MySQL client
+        run: sudo apt-get install -y mysql-client
 
-      # - run: scoop bucket list
-      # - run: scoop search sqlyog-ultimate-trial
-
-      - name: Install SQLyog Ultimate Trial from "Banee Ishaque K Scoop App Versions Fork Bucket"
-        run: scoop install sqlyog-ultimate-trial
-
-      # - name: Remove Session File
-      #   run: Remove-Item -Path "C:\workspace\Account-Ledger-Server\db_backup_sessions_SQLyog\sjasession.xml" -Force
-
-      - name: Run SQLyog Job Agent
-        run: C:\Users\runneradmin\scoop\apps\sqlyog-ultimate-trial\current\SJA.exe "C:\workspace\Account-Ledger-Server\db_backup_jobs\nomadller-hostinger-temp-SQLyog-Scoop-Windows-GitHub-Actions.xml" -l"C:\workspace\Account-Ledger-Server\db_backup_logs_SQLyog\sja.log"
-        shell: cmd
+      - name: Backup database from ${{ secrets.SERVER_NAME }} via. mysqldump
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          SERVER_NAME: ${{ secrets.SERVER_NAME }}
+        run: |
+          export TZ='Asia/Kolkata'
+          BACKUP_FILE="${SERVER_NAME}-${DB_USER}-${DB_NAME}.sql"
+          mysqldump -h $DB_HOST -u $DB_USER -p$DB_PASSWORD $DB_NAME > $BACKUP_FILE
 
       - name: Configure Git
         uses: fregante/setup-git-user@v2.0.2
 
-      - name: Add Changes
+      - name: Add and Commit Changes
         run: |
-          git add C:\workspace\Account-Ledger-Server\db_backup_logs_SQLyog\sja.log
-          git add C:\workspace\Account-Ledger-Server\db_backup_sessions_SQLyog\sjasession.xml
-          git add C:\workspace\Account-Ledger-Server\db_backups\nomadller_hostinger_temp\*.zip
-
-      - name: Commit Changes
-        run: |
-          DB_FILE=$(ls -t C:\workspace\Account-Ledger-Server\db_backups\nomadller_hostinger_temp\*.zip | head -n 1)
-          SERVER_NAME="Nomadller Hostinger Premium Shared Web Hosting Server"
-          DB_TIMESTAMP=$(TZ='Asia/Kolkata' date -r $DB_FILE "+%Y-%m-%d %H-%M-%S IST")
-          SOFTWARE_NAME="SQLyog Ultimate Trail (Via. Scoop 'Banee Ishaque K Scoop App Versions Fork Bucket')"
-          git commit -m "Added DB Backup file $(basename $DB_FILE) from ${SERVER_NAME} On ${DB_TIMESTAMP} Using ${SOFTWARE_NAME}"
+          git add *.sql
+          DB_FILE=$(ls -t *.sql | head -n 1)
+          DB_TIMESTAMP=$(TZ='Asia/Kolkata' date -r $DB_FILE "+%d-%m-%Y %H-%M-%S IST")
+          git commit -m "Added DB Backup file $(basename $DB_FILE) from ${SERVER_NAME} On ${DB_TIMESTAMP}"
 
       - name: Push Changes to Master
         uses: ad-m/github-push-action@v0.8.0
