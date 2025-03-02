@@ -36,6 +36,8 @@ jobs:
         uses: fregante/setup-git-user@v2.0.2
 
       - name: Add and Commit Changes
+        env:
+          SERVER_NAME: ${{ secrets.SERVER_NAME }}
         run: |
           git add db_backups/*.sql
           DB_FILE=$(ls -t db_backups/*.sql | head -n 1)
