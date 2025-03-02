@@ -1,4 +1,4 @@
-name: Database Backup from Nomadller Hostinger Premium Shared Web Hosting Server via. Scoop SQLyog Ultimate Trail (Available on "Banee Ishaque K Scoop App Versions Fork Bucket")
+name: Database Backup from Nomadller Hostinger Premium Shared Web Hosting Server via. Scoop SQLyog Ultimate Trial (Available on "Banee Ishaque K Scoop App Versions Fork Bucket")
 
 on:
   schedule:
@@ -23,7 +23,7 @@ jobs:
       # - run: scoop bucket list
       # - run: scoop search sqlyog-ultimate-trial
 
-      - name: Install SQLyog Ultimate Trail from "Banee Ishaque K Scoop App Versions Fork Bucket"
+      - name: Install SQLyog Ultimate Trial from "Banee Ishaque K Scoop App Versions Fork Bucket"
         run: scoop install sqlyog-ultimate-trial
 
       # - name: Remove Session File
