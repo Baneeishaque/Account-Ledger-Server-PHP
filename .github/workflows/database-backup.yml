@@ -28,16 +28,17 @@ jobs:
           DB_NAME: ${{ secrets.DB_NAME }}
           SERVER_NAME: ${{ secrets.SERVER_NAME }}
         run: |
-          BACKUP_FILE="${SERVER_NAME}-${DB_USER}-${DB_NAME}.sql"
-          mysqldump -h $DB_HOST -u $DB_USER -p'$DB_PASSWORD' $DB_NAME > "$BACKUP_FILE"
+          mkdir -p db_backups
+          BACKUP_FILE="db_backups/${SERVER_NAME}-${DB_USER}-${DB_NAME}.sql"
+          mysqldump -h $DB_HOST -u $DB_USER -p"$DB_PASSWORD" $DB_NAME > "$BACKUP_FILE"
 
       - name: Configure Git
         uses: fregante/setup-git-user@v2.0.2
 
       - name: Add and Commit Changes
         run: |
-          git add *.sql
-          DB_FILE=$(ls -t *.sql | head -n 1)
+          git add db_backups/*.sql
+          DB_FILE=$(ls -t db_backups/*.sql | head -n 1)
           DB_TIMESTAMP=$(TZ='Asia/Kolkata' date -r $DB_FILE "+%d-%m-%Y %H-%M-%S IST")
           git commit -m "Added DB Backup file $(basename $DB_FILE) from ${SERVER_NAME} On ${DB_TIMESTAMP}"
 
