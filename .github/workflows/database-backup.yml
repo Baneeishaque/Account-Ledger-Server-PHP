@@ -35,16 +35,29 @@ jobs:
       - name: Configure Git
         uses: fregante/setup-git-user@v2.0.2
 
+      - name: Check for Changes
+        id: check_changes
+        run: |
+          DB_FILE=$(ls -t db_backups/*.sql | head -n 1)
+          if git diff -- $DB_FILE | grep -v "Dump completed on"; then
+            echo "There are Database Changes."
+            echo "changed=true" >> $GITHUB_ENV
+          else
+            echo "No significant changes detected."
+            echo "changed=false" >> $GITHUB_ENV
+
       - name: Add and Commit Changes
+        if: env.changed == 'true'
         env:
           SERVER_NAME: ${{ secrets.SERVER_NAME }}
         run: |
-          git add db_backups/*.sql
           DB_FILE=$(ls -t db_backups/*.sql | head -n 1)
+          git add $DB_FILE
           DB_TIMESTAMP=$(TZ='Asia/Kolkata' date -r $DB_FILE "+%d-%m-%Y %H-%M-%S IST")
           git commit -m "Added DB Backup file $(basename $DB_FILE) from ${SERVER_NAME} On ${DB_TIMESTAMP}"
 
       - name: Push Changes to Master
+        if: env.changed == 'true'
         uses: ad-m/github-push-action@v0.8.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
