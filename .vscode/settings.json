@@ -1,0 +1,8 @@
+{
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/gitpod-io/gitpod/main/components/gitpod-protocol/data/gitpod-schema.json": [
+            ".gitpod.yml"
+        ],
+        "https://json.schemastore.org/github-workflow.json": "file:///workspace/Account-Ledger-Server/.github/workflows/database-backup.yml"
+    }
+}
