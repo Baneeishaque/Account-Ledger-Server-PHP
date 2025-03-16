@@ -39,12 +39,19 @@ jobs:
         id: check_changes
         run: |
           DB_FILE=$(ls -t db_backups/*.sql | head -n 1)
-          if git diff -- $DB_FILE | grep -v "Dump completed on"; then
-            echo "There are Database Changes."
-            echo "changed=true" >> $GITHUB_ENV
+          DIFF_OUTPUT=$(git diff -- "$DB_FILE")
+          if [ -z "$DIFF_OUTPUT" ]; then
+            echo "No changes detected."
+            echo "changed=false" >> "$GITHUB_ENV"
           else
-            echo "No significant changes detected."
-            echo "changed=false" >> $GITHUB_ENV
+            if echo "$DIFF_OUTPUT" | grep -v "Dump completed on" > /dev/null; then
+              echo "There are Database Changes."
+              echo "changed=true" >> "$GITHUB_ENV"
+            else
+              echo "No significant changes detected (only non-significant metadata changes)."
+              echo "changed=false" >> "$GITHUB_ENV"
+            fi
+          fi
 
       - name: Add and Commit Changes
         if: env.changed == 'true'
