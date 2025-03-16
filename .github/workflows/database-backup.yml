@@ -39,18 +39,28 @@ jobs:
         id: check_changes
         run: |
           DB_FILE=$(ls -t db_backups/*.sql | head -n 1)
+
           DIFF_OUTPUT=$(git diff -- "$DB_FILE")
-          if [ -z "$DIFF_OUTPUT" ]; then
-            echo "No changes detected."
-            echo "changed=false" >> "$GITHUB_ENV"
-          else
-            if echo "$DIFF_OUTPUT" | grep -v "Dump completed on" > /dev/null; then
-              echo "There are Database Changes."
-              echo "changed=true" >> "$GITHUB_ENV"
-            else
-              echo "No significant changes detected (only non-significant metadata changes)."
+
+          # Process the diff output to remove irrelevant lines
+          CLEANED_DIFF=$(echo "$DIFF_OUTPUT" | sed -E '
+              /^diff --/d;                          # Remove diff metadata lines
+              /^index /d;                           # Remove index lines
+              /^--- a/d;                            # Remove old file path
+              /^\+\+\+ b/d;                         # Remove new file path
+              /^@@ /d;                              # Remove hunk headers
+              /^[[:space:]]*\/\*!/d;                # Remove comments starting with /*! 
+              /^[+-]-- Dump completed on/d;         # Remove added or removed "Dump completed on" lines
+              /^[[:space:]]*$/d                     # Remove blank or whitespace-only lines
+          ')
+
+          # Check if the cleaned diff output is empty or contains meaningful changes
+          if [ -z "$CLEANED_DIFF" ]; then
+              echo "No meaningful changes detected."
               echo "changed=false" >> "$GITHUB_ENV"
-            fi
+          else
+              echo "There are meaningful database changes."
+              echo "changed=true" >> "$GITHUB_ENV"
           fi
 
       - name: Add and Commit Changes
