@@ -15,8 +15,5 @@
     "ext-gettext": "*",
     "ext-json": "*",
     "php": "^8.0.12"
-  },
-  "require-dev": {
-    "heroku/heroku-buildpack-php": "259"
   }
 }
