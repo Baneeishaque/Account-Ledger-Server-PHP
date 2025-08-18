@@ -1,0 +1,95 @@
+{
+  "additionalRecommendations": [
+    "actionforge.actionforge",
+    "alphaxek.github-actions-locally",
+    "continue.continue",
+    "gocodeo.gocodeo",
+    "google.geminicodeassist",
+    "kodu-ai.claude-dev-experimental",
+    "sindujaramaraj.app-developer-copilot",
+    "sixth.sixth-ai",
+    "taichikubo.dired-plus"
+  ],
+  "gitpodAlternativeRecommendations": [
+    "fittentech.fitten-code",
+    "ms-azuretools.vscode-containers",
+    "nick-rudenko.back-n-forth",
+    "vscode.github-authentication"
+  ],
+  "onlyDesktopSupported": [
+    "quentinguidee.gitignore-ultimate"
+  ],
+  "onlyGitpodSupported": [
+    "lang2hong.githd",
+    "solomonkinard.git-files"
+  ],
+  "onlyVscodeSupported": [
+    "github.copilot",
+    "github.copilot-chat",
+    "ms-vscode-remote.remote-containers"
+  ],
+  "recommendations": [
+    "aaron-bond.better-comments",
+    "adamraichu.zip-viewer",
+    "alefragnani.bookmarks",
+    "britesnow.vscode-toggle-quotes",
+    "chunsen.bracket-select",
+    "donjayamanne.githistory",
+    "eamodio.gitlens",
+    "everlastengineering.debug-in-titlebar",
+    "fabiospampinato.vscode-debug-launcher",
+    "github.vscode-github-actions",
+    "github.vscode-pull-request-github",
+    "hashhar.gitattributes",
+    "hediet.debug-visualizer",
+    "huizhou.githd",
+    "hverlin.mise-vscode",
+    "ibm.output-colorizer",
+    "jakob101.relativepath",
+    "lacroixdavid1.vscode-format-context-menu",
+    "leodevbro.blockman",
+    "mhutchie.git-graph",
+    "moshfeu.compare-folders",
+    "moshfeu.diff-merge",
+    "ms-vscode.vscode-github-issue-notebooks",
+    "phillipcao.debug-current",
+    "piotrpalarz.vscode-gitignore-generator",
+    "pkief.material-icon-theme",
+    "qcz.text-power-tools",
+    "redhat.vscode-yaml",
+    "roscop.activefileinstatusbar",
+    "ryu1kn.partial-diff",
+    "sanjulaganepola.github-local-actions",
+    "semanticdiff.semanticdiff",
+    "sleistner.vscode-fileutils",
+    "streetsidesoftware.code-spell-checker",
+    "sysoev.vscode-open-in-github",
+    "takkao.open-window-tab-context",
+    "tamasfe.even-better-toml",
+    "usernamehw.errorlens",
+    "vscode.configuration-editing",
+    "vscode.docker",
+    "vscode.git",
+    "vscode.git-base",
+    "vscode.github",
+    "vscode.ini",
+    "vscode.json",
+    "vscode.json-language-features",
+    "vscode.log",
+    "vscode.merge-conflict",
+    "vscode.php",
+    "vscode.php-language-features",
+    "vscode.references-view",
+    "vscode.search-result",
+    "vscode.terminal-suggest",
+    "vscode.xml",
+    "vscode.yaml",
+    "yy0931.gitconfig-lsp",
+    "zainchen.json"
+  ],
+  "recommendationsFromGitHub": [
+  ],
+  "vscodeAlternativeRecommendations": [
+    "vscode.theme-defaults"
+  ]
+}
