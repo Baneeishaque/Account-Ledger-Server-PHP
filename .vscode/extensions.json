@@ -81,6 +81,7 @@
     "vscode.php-language-features",
     "vscode.references-view",
     "vscode.search-result",
+    "vscode.sql",
     "vscode.terminal-suggest",
     "vscode.xml",
     "vscode.yaml",
