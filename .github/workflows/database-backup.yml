@@ -5,6 +5,16 @@ on:
     # 00:00 IST, 06:00 IST, 12:00 IST, 18:00 IST
     - cron: "30 18,0,6,12 * * *"
   workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - .github/workflows/database-backup.yml
+  pull_request:
+    branches:
+      - master
+    paths:
+      - .github/workflows/database-backup.yml
 
 jobs:
   backup:
@@ -50,7 +60,7 @@ jobs:
               /^--- a/d;                            # Remove old file path
               /^\+\+\+ b/d;                         # Remove new file path
               /^@@ /d;                              # Remove hunk headers
-              /^[[:space:]]*\/\*!/d;                # Remove comments starting with /*! 
+              /^[[:space:]]*\/\*!/d;                # Remove comments starting with /*!
               /^[+-]-- Dump completed on/d;         # Remove added or removed "Dump completed on" lines
               /^[[:space:]]*$/d                     # Remove blank or whitespace-only lines
           ')
