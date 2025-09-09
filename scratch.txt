@@ -69,6 +69,5 @@ gitpod /workspace/Account-Ledger-Server (master) $ tree .
 │   ├── select_User_Transactions_v3.php
 │   └── update_Transaction_v2.php
 ├── LICENSE
-├── phpinfo.php
 ├── Procfile
 └── renovate.json
