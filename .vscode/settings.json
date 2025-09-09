@@ -4,5 +4,20 @@
             ".gitpod.yml"
         ],
         "https://json.schemastore.org/github-workflow.json": "file:///workspace/Account-Ledger-Server/.github/workflows/database-backup.yml"
-    }
+    },
+    "cSpell.words": [
+        "Banee",
+        "cdbr",
+        "cleardb",
+        "compressedprotocol",
+        "defaulttimeout",
+        "Isencrypted",
+        "Ishaque",
+        "mysqli",
+        "sqlmode",
+        "waittimeoutvalue",
+        "ZFXPXCs",
+        "ObjectbrowserBkcolor",
+        "ObjectbrowserFgcolor"
+    ]
 }
