@@ -1,2 +1,11 @@
 [tools]
 "ubi:adwinying/php" = "8.4.11"
+"ubi:composer/composer" = "2.8.12"
+
+[hooks]
+postinstall = """
+composer_dir=$(mise where ubi:composer/composer)
+if [ -f "$composer_dir/composer.phar" ]; then
+  mv "$composer_dir/composer.phar" "$composer_dir/composer"
+fi
+"""
