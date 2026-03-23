@@ -6,6 +6,10 @@
 		},
 		"ghcr.io/devcontainers-extra/features/mise:1": {
 			"version": "latest"
+		},
+		"ghcr.io/devcontainers/features/git-lfs:1": {
+			"installDirectlyFromGitHubRelease": true,
+			"version": "latest"
 		}
 	}
 }
