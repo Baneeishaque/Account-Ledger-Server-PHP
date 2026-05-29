@@ -1,4 +1,6 @@
 {
+    "php.validate.executablePath": "/Users/dk/.local/share/mise/installs/github-adwinying-php/8.5.6/php",
+    "php.debug.executablePath": "/Users/dk/.local/share/mise/installs/github-adwinying-php/8.5.6/php",
     "yaml.schemas": {
         "https://raw.githubusercontent.com/gitpod-io/gitpod/main/components/gitpod-protocol/data/gitpod-schema.json": [
             ".gitpod.yml"
