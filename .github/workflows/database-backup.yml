@@ -30,6 +30,9 @@ jobs:
       - name: Install MySQL client
         run: apt install -y mysql-client
 
+      - name: Capture snapshot timestamp (IST)
+        run: echo "BACKUP_TIMESTAMP=$(TZ='Asia/Kolkata' date '+%d-%m-%Y %H-%M-%S IST')" >> "$GITHUB_ENV"
+
       - name: Backup database from ${{ secrets.SERVER_NAME }} via. mysqldump
         env:
           DB_HOST: ${{ secrets.DB_HOST }}
@@ -80,9 +83,8 @@ jobs:
           SERVER_NAME: ${{ secrets.SERVER_NAME }}
         run: |
           DB_FILE=$(ls -t db_backups/*.sql | head -n 1)
-          git add $DB_FILE
-          DB_TIMESTAMP=$(TZ='Asia/Kolkata' date -r $DB_FILE "+%d-%m-%Y %H-%M-%S IST")
-          git commit -m "Added DB Backup file $(basename $DB_FILE) from ${SERVER_NAME} On ${DB_TIMESTAMP}"
+          git add "$DB_FILE"
+          git commit -m "Added DB Backup file $(basename "$DB_FILE") from ${SERVER_NAME} On ${BACKUP_TIMESTAMP}"
 
       - name: Push Changes to Master
         if: env.changed == 'true'
