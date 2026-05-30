@@ -16,10 +16,11 @@
         "Isencrypted",
         "Ishaque",
         "mysqli",
-        "sqlmode",
-        "waittimeoutvalue",
-        "ZFXPXCs",
         "ObjectbrowserBkcolor",
-        "ObjectbrowserFgcolor"
+        "ObjectbrowserFgcolor",
+        "sqlmode",
+        "transactionsv",
+        "waittimeoutvalue",
+        "ZFXPXCs"
     ]
 }
