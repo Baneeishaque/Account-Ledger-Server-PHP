@@ -172,6 +172,126 @@ These work identically on MySQL and MariaDB — no migration needed:
 
 ---
 
+## Efficiency-ceiling deep dives (delete_account.php)
+
+The DELETE-first compound block in `http_API/delete_account.php` was
+arrived at after explicitly weighing — and rejecting — three further
+hypothetical optimizations. They are documented here so future
+maintainers can understand both *what the ceiling is* and *why we
+stopped where we did*.
+
+### Why we did NOT promote the compound block to a stored procedure (perf angle)
+
+The phrase "inline-cache the compound block" is shorthand for a pair
+of optimizations that a stored procedure unlocks but an ad-hoc
+compound block does not:
+
+**Today (Tier A, compound block):** every HTTP request ships the
+entire ~600-byte `BEGIN NOT ATOMIC … END` text to the server. The
+server must lex + parse it, resolve names (tables, columns),
+plan the queries (index choice, etc.), and only then execute. The
+first three steps repeat on every call.
+
+**With Tier B (`CREATE PROCEDURE`):** parse + name-resolution + plan
+happen once at `CREATE PROCEDURE` time. They are kept in the server's
+**stored-routine cache** (per-connection in MariaDB ≤ 10.x, global in
+11.x+). Every `CALL sp_delete_account(?)` then:
+1. Looks up the cached compiled routine (hash lookup ~ns).
+2. Substitutes the bound `?` parameter into the precomputed plan.
+3. Executes.
+
+The measurable savings — skipping lex/parse/plan for ~600 bytes of SQL
+— are **single-digit microseconds per request**. At this workload
+(~100 deletes/day across a ~50 ms remote-DB RTT), that micro-saving is
+invisible end-to-end. At >10k QPS it would start to matter.
+
+Tier B's real value is **portability** (see § *Migration recipe to
+MySQL* above), not perf. We did not pay the operational cost (extra
+schema object, GRANT EXECUTE, migration coordination) for an
+imperceptible perf gain.
+
+### Why a composite covering index on `transactionsv2` would not help
+
+The handler's blocked-path probe is:
+
+```sql
+EXISTS(SELECT 1 FROM transactionsv2
+       WHERE from_account_id=X OR to_account_id=X)
+```
+
+A B-tree index on a column is sorted by that column; the optimizer can
+seek to a specific value in O(log n). A **composite** index is a
+B-tree sorted by multiple columns in a specific order — its leading
+column is the only one that supports a direct seek. A **covering**
+index is one where every column the query needs is present *in the
+index*, so the engine can answer from the index alone (an
+"index-only scan").
+
+A naive proposal would be: add `INDEX (from_account_id, to_account_id)`
+and let MySQL serve both branches of the OR from one index. But this
+fails:
+
+| Branch | Composite index `(from, to)` | Result |
+|---|---|---|
+| `from_account_id = X` | Leading column — direct seek | ✅ fast |
+| `to_account_id = X`   | Non-leading column — cannot seek; full index scan needed | ❌ no benefit |
+
+To actually help the OR query, you would need **two** indexes:
+`(from_account_id)` and `(to_account_id)`. Both already exist —
+they were auto-created when `mysql-fk-hardening-workflow` installed
+`fk_txv2_from_account` and `fk_txv2_to_account` (FK columns are
+implicitly indexed by InnoDB). The optimizer can already do an
+**index merge** of these two indexes for the OR clause, which is
+exactly the optimal plan.
+
+Adding more indexes would also cost write performance: each
+`INSERT` / `UPDATE` / `DELETE` on `transactionsv2` must maintain
+every index B-tree. Slowing the *write* path for a marginal
+*read* improvement on the *blocked path only* of an admin endpoint
+hit ~100 times/day is a clearly bad trade.
+
+### What `mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT)` actually does
+
+PHP's `mysqli` driver has two error-reporting modes:
+
+**Polling mode (the default):** DB errors are silently captured in
+`$con->error` / `$con->errno`; the failing call returns `false` (or 0
+for `affected_rows`). Your PHP code MUST inspect those return values
+on every call. Forgetting to check is a classic silent-data-loss
+bug-pattern.
+
+**Exception mode (our call):**
+
+| Flag | Effect |
+|---|---|
+| `MYSQLI_REPORT_ERROR` | Convert mysqli errors into `mysqli_sql_exception` (a `RuntimeException` subclass) |
+| `MYSQLI_REPORT_STRICT` | Promote driver-level warnings (connection lost, data truncated) to exceptions too |
+
+Combined, **any** failure — connection drop, syntax error,
+FK violation, deadlock, lost connection — raises
+`mysqli_sql_exception` that propagates through the normal PHP
+exception stack and is caught by our `try { … } catch
+(mysqli_sql_exception $e) { … }` block.
+
+For `delete_account.php` specifically, the FK violation (1451) is
+trapped *inside* the MariaDB compound block by
+`DECLARE EXIT HANDLER FOR 1451` and emerges as a `'blocked'`
+resultset (never as a PHP exception). All *other* failure modes —
+connection drop mid-query, missing table (1146), syntax error in a
+future edit — surface as exceptions and are routed into a clean
+`status:'1', error:<message>` JSON response instead of a silent
+`'No result returned.'` mask.
+
+**Per-endpoint, not in `config.php`:** we call `mysqli_report` at the
+top of each modernized endpoint rather than globally in `config.php`
+because legacy read endpoints (`select_*.php`, `getUsers.php`, etc.)
+still use the polling pattern. Flipping the global default would
+change their error-handling semantics underneath them. Per-endpoint
+adoption lets us migrate incrementally; a future commit can move the
+flag to `config.php` once every endpoint has been audited.
+
+---
+
 ## Related references
 
 - [`.agents/skills/php-mysqli-prepared-statement-modernization`](https://github.com/Baneeishaque/ai-suite-2/tree/main/.agents/skills/php-mysqli-prepared-statement-modernization)
