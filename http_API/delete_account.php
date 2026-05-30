@@ -10,49 +10,57 @@ if ($account_id === false || $account_id === null) {
     return;
 }
 
-$sql = "SELECT
-            EXISTS(SELECT 1 FROM accounts WHERE account_id=$account_id),
-            EXISTS(SELECT 1 FROM accounts WHERE parent_account_id=$account_id),
-            EXISTS(SELECT 1 FROM transactionsv2
-                   WHERE from_account_id=$account_id OR to_account_id=$account_id)
-        INTO @ae, @hc, @ht;
-        DELETE FROM accounts WHERE account_id=$account_id AND @hc=0 AND @ht=0;
-        SELECT @ae AS account_exists, @hc AS has_children, @ht AS has_transactions,
-               ROW_COUNT() AS affected_rows;";
+// MariaDB compound block (BEGIN NOT ATOMIC + EXIT HANDLER FOR 1451):
+//   Happy path : 1 DELETE only.
+//   Row absent : 1 no-op DELETE.
+//   FK trips   : handler runs the diagnostic EXISTS pair and returns
+//                a 'blocked' resultset with both blocker flags set.
+// All paths cost ONE network round-trip and ONE resultset.
+$sql = "BEGIN NOT ATOMIC
+            DECLARE EXIT HANDLER FOR 1451
+                SELECT 'blocked' AS outcome,
+                       EXISTS(SELECT 1 FROM accounts
+                              WHERE parent_account_id=$account_id) AS has_children,
+                       EXISTS(SELECT 1 FROM transactionsv2
+                              WHERE from_account_id=$account_id
+                                 OR to_account_id=$account_id)     AS has_transactions,
+                       0 AS affected_rows;
+            DELETE FROM accounts WHERE account_id=$account_id;
+            SELECT CASE WHEN ROW_COUNT()=1 THEN 'deleted' ELSE 'not_found' END AS outcome,
+                   0 AS has_children,
+                   0 AS has_transactions,
+                   ROW_COUNT() AS affected_rows;
+        END";
 
 try {
-    if (!$con->multi_query($sql)) {
-        echo json_encode(array('status' => "1", 'error' => $con->error));
-        return;
-    }
-
-    $row = null;
-    do {
-        if ($res = $con->store_result()) {
-            $row = $res->fetch_assoc();
-            $res->free();
-        }
-    } while ($con->more_results() && $con->next_result());
+    $res = $con->query($sql);
 } catch (mysqli_sql_exception $e) {
     echo json_encode(array('status' => "1", 'error' => $e->getMessage()));
     return;
 }
 
+$row = $res ? $res->fetch_assoc() : null;
+if ($res) { $res->free(); }
 if ($row === null) {
     echo json_encode(array('status' => "1", 'error' => "No result returned."));
     return;
 }
 
-if ((int) $row['account_exists'] === 0) {
-    echo json_encode(array('status' => "1", 'error' => "Account not found."));
-    return;
+switch ($row['outcome']) {
+    case 'deleted':
+        echo json_encode(array('status' => "0", 'affected_rows' => (int) $row['affected_rows']));
+        return;
+    case 'not_found':
+        echo json_encode(array('status' => "1", 'error' => "Account not found."));
+        return;
+    case 'blocked':
+        $reasons = array();
+        if ((int) $row['has_children']     === 1) { $reasons[] = "child accounts"; }
+        if ((int) $row['has_transactions'] === 1) { $reasons[] = "transactions"; }
+        echo json_encode(array('status' => "1",
+                               'error'  => "Account cannot be deleted : has " . implode(" and ", $reasons) . "."));
+        return;
+    default:
+        echo json_encode(array('status' => "1", 'error' => "Unexpected outcome: " . $row['outcome']));
+        return;
 }
-if ((int) $row['has_children'] === 0 && (int) $row['has_transactions'] === 0) {
-    echo json_encode(array('status' => "0", 'affected_rows' => (int) $row['affected_rows']));
-    return;
-}
-
-$reasons = array();
-if ((int) $row['has_children'] === 1)     { $reasons[] = "child account(s)"; }
-if ((int) $row['has_transactions'] === 1) { $reasons[] = "transaction(s)"; }
-echo json_encode(array('status' => "1", 'error' => "Account cannot be deleted : referenced by " . implode(" and ", $reasons) . "."));
